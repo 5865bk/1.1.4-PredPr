@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
-
+    // JDBC connection details
     public static final String JDBC_URL = "com.mysql.cj.jdbc.Driver";
     public static final String JDBC_USER = "root";
     public static final String JDBC_PASSWORD = "Iamguru50570723";
@@ -69,3 +69,4 @@ public class Util {
         }
     }
 }
+
