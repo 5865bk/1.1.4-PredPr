@@ -16,18 +16,19 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users " +
-                    "(id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastname VARCHAR(45), age INT)");
+        try (PreparedStatement pstm = connection.prepareStatement("CREATE TABLE IF NOT EXISTS users " +
+                "(id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastname VARCHAR(45), age INT)")) {
+            pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+
     @Override
     public void dropUsersTable() {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE IF EXISTS users");
+        try (PreparedStatement pstm = connection.prepareStatement("DROP TABLE IF EXISTS users")) {
+            pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,12 +59,14 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        try (ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM users")) {
-            while (resultSet.next()) {
-                User user = new User(resultSet.getString("name"),
-                        resultSet.getString("lastname"), resultSet.getByte("age"));
-                user.setId(resultSet.getLong("id"));
-                users.add(user);
+        try (PreparedStatement pstm = connection.prepareStatement("SELECT * FROM users")) {
+            try (ResultSet resultSet = pstm.executeQuery()) {
+                while (resultSet.next()) {
+                    User user = new User(resultSet.getString("name"),
+                            resultSet.getString("lastname"), resultSet.getByte("age"));
+                    user.setId(resultSet.getLong("id"));
+                    users.add(user);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,8 +76,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("TRUNCATE TABLE users");
+        try (PreparedStatement pstm = connection.prepareStatement("TRUNCATE TABLE users")) {
+            pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
