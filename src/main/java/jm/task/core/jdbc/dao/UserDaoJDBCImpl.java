@@ -16,6 +16,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
+        if (connection == null) {
+            throw new RuntimeException("Unable to connect to the database");
+        }
+
         try (PreparedStatement pstm = connection.prepareStatement("CREATE TABLE IF NOT EXISTS users " +
                 "(id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastname VARCHAR(45), age INT)")) {
             pstm.executeUpdate();
@@ -27,6 +31,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
+        if (connection == null) {
+            throw new RuntimeException("Unable to connect to the database");
+        }
+
         try (PreparedStatement pstm = connection.prepareStatement("DROP TABLE IF EXISTS users")) {
             pstm.executeUpdate();
         } catch (SQLException e) {
@@ -36,6 +44,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastname, byte age) {
+        if (connection == null) {
+            throw new RuntimeException("Unable to connect to the database");
+        }
+
         try (PreparedStatement pstm = connection.prepareStatement("INSERT INTO users (name, lastname, age) VALUES (?, ?, ?)")) {
             pstm.setString(1, name);
             pstm.setString(2, lastname);
@@ -48,6 +60,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
+        if (connection == null) {
+            throw new RuntimeException("Unable to connect to the database");
+        }
+
         try (PreparedStatement pstm = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
             pstm.setLong(1, id);
             pstm.executeUpdate();
@@ -58,6 +74,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
+        if (connection == null) {
+            throw new RuntimeException("Unable to connect to the database");
+        }
+
         List<User> users = new ArrayList<>();
         try (PreparedStatement pstm = connection.prepareStatement("SELECT * FROM users")) {
             try (ResultSet resultSet = pstm.executeQuery()) {
@@ -76,6 +96,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
+        if (connection == null) {
+            throw new RuntimeException("Unable to connect to the database");
+        }
+
         try (PreparedStatement pstm = connection.prepareStatement("TRUNCATE TABLE users")) {
             pstm.executeUpdate();
         } catch (SQLException e) {
