@@ -6,31 +6,12 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
-    // JDBC connection details
-    public static final String JDBC_URL = "com.mysql.cj.jdbc.Driver";
-    public static final String JDBC_USER = "root";
-    public static final String JDBC_PASSWORD = "Iamguru50570723";
 
     // Hibernate connection details
     private static SessionFactory sessionFactory;
-
-    // Get JDBC Connection
-    public static Connection getConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
 
     // Get Hibernate SessionFactory
     public static SessionFactory getSessionFactory() {
