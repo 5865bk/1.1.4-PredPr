@@ -23,6 +23,17 @@ public class Util {
         }
         return connection;
     }
+
+    // Close JDBC Connection
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 
 
